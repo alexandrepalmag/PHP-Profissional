@@ -1,0 +1,19 @@
+{
+    "name": "acer/php_profissional",
+    "authors": [
+        {
+            "name": "alexandrepalmag",
+            "email": "alepalmag85ti@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "files": [
+            "app/helpers/constants.php",
+            "app/router/router.php"
+        ],
+        "psr-4": {
+            "app\\": "app"
+        }
+    }
+}
