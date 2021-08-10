@@ -39,7 +39,7 @@ function params($uri, $matchedUri)
         $matchedToGetParams = array_keys($matchedUri)[0];
 
         return array_diff(
-            explode('/', ltrim($uri, '/')),
+            $uri,
             explode('/', ltrim($matchedToGetParams, '/'))
         );
     }
@@ -49,8 +49,6 @@ function params($uri, $matchedUri)
 
 function paramsFormat($uri, $params)
 {
-
-    $uri = explode('/', ltrim($uri, '/'));
 
     $paramsData = [];
 
@@ -70,17 +68,22 @@ function router()
 
     $matchedUri = exactMatchUriInArrayRoutes($uri, $routes);
 
+    $params = [];
+
     if (empty($matchedUri)) {
 
         $matchedUri = regularExpressionMatchArrayRoutes($uri, $routes);
+        $uri = explode('/', ltrim($uri, '/'));
 
-        if (!empty($matchedUri)) {
-
-            $params = params($uri, $matchedUri);
-            $params = params($uri, $params);
-
-
-            var_dump($params);
-        }
+        $params = params($uri, $matchedUri);
+        $params = params($uri, $params);
     }
+
+    if (!empty($matchedUri)) {
+        controller($matchedUri, $params);
+
+        return;
+    }
+
+    throw new Exception("Something went wrong!!!");
 }
